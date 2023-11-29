@@ -149,3 +149,11 @@ jwt:
     expire: 604800
     header: token
 
+# 微信
+wechat:
+  # 你的微信小程序id
+  appid: xxx
+  # 你的微信小程序密钥
+  appsecret:  xxx
+
+

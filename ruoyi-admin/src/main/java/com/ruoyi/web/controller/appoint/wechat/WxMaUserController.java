@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +30,6 @@ import com.ruoyi.common.utils.http.HttpUtils;
 @RequestMapping("/api/wechat")
 public class WxMaUserController
 {
-
     @Autowired
     IMemberService memberService;
 
@@ -38,11 +38,13 @@ public class WxMaUserController
     /**
      * 微信小程序APPID
      */
-    private final static String AppID = "wx471f2d2e585852f4";
+    @Value("${wechat.appid}")
+    private String appID;
     /**
      * 微信APP密钥
      */
-    private final static String AppSecret = "44efd19c8367f95f287d4a4bec51415a";
+    @Value("${wechat.appsecret}")
+    private String appSecret;
 
     /**
      * 登录时获取的 code（微信官方提供的临时凭证）
@@ -60,8 +62,8 @@ public class WxMaUserController
          * js_code = AppSecret 你自己的微信APP密钥
          * grant_type=authorization_code = code 微信官方提供的临时凭证
          */
-        String params = StringUtils.format("appid={}&secret={}&js_code={}&grant_type=authorization_code", AppID,
-                AppSecret, object.get("code"));
+        String params = StringUtils.format("appid={}&secret={}&js_code={}&grant_type=authorization_code", appID,
+                appSecret, object.get("code"));
         // 开始发起网络请求,若依管理系统自带网络请求工具，直接使用即可
         String res = HttpUtils.sendGet(url, params);
         JSONObject jsonObject = JSON.parseObject(res);
