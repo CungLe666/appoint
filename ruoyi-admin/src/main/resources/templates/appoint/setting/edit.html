@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改预约设置')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-setting-edit" th:object="${setting}">
+            <input name="id" th:field="*{id}" type="hidden">
+            
+            
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">技师：</label>
+                <div class="col-sm-8">
+                	<select id="teacherId" name="teacherId" class="form-control">
+						<option value="">--请选择技师--</option>
+						<option th:each="post:${teacherList}" th:text="${post.realName}" th:value="${post.id}" th:field="*{teacherId}"></option>
+					</select>
+                </div>
+            </div>
+            
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">开始时间：</label>
+                <div class="col-sm-8">
+                    <input name="startTime" th:field="*{startTime}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">结束时间：</label>
+                <div class="col-sm-8">
+                    <input name="endTime" th:field="*{endTime}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">最多预约人数：</label>
+                <div class="col-sm-8">
+                    <input name="maxPeople" th:field="*{maxPeople}" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var prefix = ctx + "appoint/setting";
+        $("#form-setting-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-setting-edit').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

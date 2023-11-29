@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.appoint.advert.mapper.AdvertMapper">
+    
+    <resultMap type="Advert" id="AdvertResult">
+        <result property="id"    column="id"    />
+        <result property="picUrl"    column="pic_url"    />
+        <result property="enable"    column="enable"    />
+        <result property="link"    column="link"    />
+        <result property="sort"    column="sort"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectAdvertVo">
+        select id, pic_url, enable, link, sort, create_time from appoint_advert
+    </sql>
+
+    <select id="selectAdvertList" parameterType="Advert" resultMap="AdvertResult">
+        <include refid="selectAdvertVo"/>
+        <where>  
+        </where>
+    </select>
+    
+    <select id="selectAdvertById" parameterType="Long" resultMap="AdvertResult">
+        <include refid="selectAdvertVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAdvert" parameterType="Advert" useGeneratedKeys="true" keyProperty="id">
+        insert into appoint_advert
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="picUrl != null">pic_url,</if>
+            <if test="enable != null">enable,</if>
+            <if test="link != null">link,</if>
+            <if test="sort != null">sort,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="picUrl != null">#{picUrl},</if>
+            <if test="enable != null">#{enable},</if>
+            <if test="link != null">#{link},</if>
+            <if test="sort != null">#{sort},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAdvert" parameterType="Advert">
+        update appoint_advert
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="picUrl != null">pic_url = #{picUrl},</if>
+            <if test="enable != null">enable = #{enable},</if>
+            <if test="link != null">link = #{link},</if>
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAdvertById" parameterType="Long">
+        delete from appoint_advert where id = #{id}
+    </delete>
+
+    <delete id="deleteAdvertByIds" parameterType="String">
+        delete from appoint_advert where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+    <select id="quaryAdvertList" resultMap="AdvertResult">
+        select * from appoint_advert where `enable` = "1" order by sort
+    </select>
+
+</mapper>

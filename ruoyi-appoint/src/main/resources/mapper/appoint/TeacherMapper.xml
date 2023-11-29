@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.appoint.teacher.mapper.TeacherMapper">
+    
+    <resultMap type="Teacher" id="TeacherResult">
+        <result property="id"    column="id"    />
+        <result property="picUrl"    column="pic_url"    />
+        <result property="realName"    column="real_name"    />
+        <result property="mobile"    column="mobile"    />
+        <result property="specialty"    column="specialty"    />
+        <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectTeacherVo">
+        select id, pic_url, real_name, mobile, specialty, remark, create_time from appoint_teacher
+    </sql>
+
+    <select id="selectTeacherList" parameterType="Teacher" resultMap="TeacherResult">
+        <include refid="selectTeacherVo"/>
+        <where>  
+            <if test="realName != null  and realName != ''"> and real_name like concat('%', #{realName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectTeacherById" parameterType="Long" resultMap="TeacherResult">
+        <include refid="selectTeacherVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTeacher" parameterType="Teacher" useGeneratedKeys="true" keyProperty="id">
+        insert into appoint_teacher
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="picUrl != null">pic_url,</if>
+            <if test="realName != null">real_name,</if>
+            <if test="mobile != null">mobile,</if>
+            <if test="specialty != null">specialty,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="picUrl != null">#{picUrl},</if>
+            <if test="realName != null">#{realName},</if>
+            <if test="mobile != null">#{mobile},</if>
+            <if test="specialty != null">#{specialty},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTeacher" parameterType="Teacher">
+        update appoint_teacher
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="picUrl != null">pic_url = #{picUrl},</if>
+            <if test="realName != null">real_name = #{realName},</if>
+            <if test="mobile != null">mobile = #{mobile},</if>
+            <if test="specialty != null">specialty = #{specialty},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTeacherById" parameterType="Long">
+        delete from appoint_teacher where id = #{id}
+    </delete>
+
+    <delete id="deleteTeacherByIds" parameterType="String">
+        delete from appoint_teacher where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+    <select id="selectTeacherName"  resultMap="TeacherResult">
+       select id, pic_url, real_name, mobile, specialty, remark, create_time from appoint_teacher
+    </select>  
+    
+    <select id="quaryTeacherList" resultMap="TeacherResult">
+        select * from appoint_teacher limit 0,3
+    </select>
+    
+    <select id="quaryTeacherListAll" resultMap="TeacherResult">
+        select t.* from appoint_teacher t where t.id in (select s.teacher_id from appoint_setting s)
+        
+    </select>
+
+</mapper>

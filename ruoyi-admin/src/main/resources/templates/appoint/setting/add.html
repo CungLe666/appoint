@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增预约设置')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-setting-add">
+            
+            
+            <div class="form-group">
+				<label class="col-sm-3 control-label">技师：<span class="text-danger">*</span></label>
+				<div class="col-sm-8">
+					<select id="teacherId" name="teacherId" class="form-control">
+						<option value="">--请选择技师--</option>
+						<option th:each="post:${teacherList}" th:text="${post.realName}" th:value="${post.id}"></option>
+					</select>
+				</div>
+			</div>
+            
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">开始时间：</label>
+                <div class="col-sm-8">
+                    <input name="startTime" class="form-control" type="text" placeholder="开始时间,格式如08:00">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">结束时间：</label>
+                <div class="col-sm-8">
+                    <input name="endTime" class="form-control" type="text" placeholder="结束时间,格式如09:00">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">最多预约人数：</label>
+                <div class="col-sm-8">
+                    <input name="maxPeople" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var prefix = ctx + "appoint/setting"
+        $("#form-setting-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-setting-add').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

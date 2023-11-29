@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.appoint.evaluation.mapper.EvaluationMapper">
+    
+    <resultMap type="Evaluation" id="EvaluationResult">
+        <result property="id"    column="id"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="memberId"    column="member_id"    />
+        <result property="content"    column="content"    />
+        <result property="projectId"    column="project_id"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectEvaluationVo">
+        select id, order_id, member_id, content, project_id, create_time from appoint_evaluation
+    </sql>
+
+    <select id="selectEvaluationList" parameterType="Evaluation" resultMap="EvaluationResult">
+        <include refid="selectEvaluationVo"/>
+        <where>  
+        </where>
+    </select>
+    
+    <select id="selectEvaluationById" parameterType="Long" resultMap="EvaluationResult">
+        <include refid="selectEvaluationVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertEvaluation" parameterType="Evaluation" useGeneratedKeys="true" keyProperty="id">
+        insert into appoint_evaluation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">order_id,</if>
+            <if test="memberId != null">member_id,</if>
+            <if test="content != null">content,</if>
+            <if test="projectId != null">project_id,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">#{orderId},</if>
+            <if test="memberId != null">#{memberId},</if>
+            <if test="content != null">#{content},</if>
+            <if test="projectId != null">#{projectId},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEvaluation" parameterType="Evaluation">
+        update appoint_evaluation
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderId != null">order_id = #{orderId},</if>
+            <if test="memberId != null">member_id = #{memberId},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="projectId != null">project_id = #{projectId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteEvaluationById" parameterType="Long">
+        delete from appoint_evaluation where id = #{id}
+    </delete>
+
+    <delete id="deleteEvaluationByIds" parameterType="String">
+        delete from appoint_evaluation where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+    <select id="queryEvaluationList" resultMap="EvaluationResult">
+        select e.*, u.nickname as 'member.nickname', u.avatar_url as
+		'member.avatarUrl', p.project_name 'project.projectName' from appoint_evaluation e
+		left join appoint_member u on e.member_id = u.id
+		left join appoint_project p on e.project_id = p.id
+		<where>
+			<if test="projectId != null">
+				and e.project_id = #{projectId}
+			</if>
+		</where>
+		order by e.create_time desc
+    </select>
+    
+    <delete id="deleteEvaluationByProjectid" parameterType="String">
+        delete from appoint_evaluation where project_id = #{projectId}
+    </delete>
+
+</mapper>
