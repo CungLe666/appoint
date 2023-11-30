@@ -17,7 +17,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select id, pic_url, enable, link, sort, create_time from appoint_advert
     </sql>
 
-    <select id="selectAdvertList" parameterType="Advert" resultMap="AdvertResult">
+    <select id="selectAdvertList" parameterType="com.ruoyi.appoint.advert.domain.Advert" resultMap="AdvertResult">
         <include refid="selectAdvertVo"/>
         <where>  
         </where>
@@ -28,7 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </select>
         
-    <insert id="insertAdvert" parameterType="Advert" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertAdvert" parameterType="com.ruoyi.appoint.advert.domain.Advert" useGeneratedKeys="true" keyProperty="id">
         insert into appoint_advert
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="picUrl != null">pic_url,</if>
@@ -46,7 +46,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateAdvert" parameterType="Advert">
+    <update id="updateAdvert" parameterType="com.ruoyi.appoint.advert.domain.Advert">
         update appoint_advert
         <trim prefix="SET" suffixOverrides=",">
             <if test="picUrl != null">pic_url = #{picUrl},</if>
@@ -70,7 +70,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
     
     <select id="quaryAdvertList" resultMap="AdvertResult">
-        select * from appoint_advert where `enable` = "1" order by sort
+        select * from appoint_advert where `enable` = 1 order by sort
     </select>
 
 </mapper>

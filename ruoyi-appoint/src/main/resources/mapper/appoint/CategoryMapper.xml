@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper
 	namespace="com.ruoyi.appoint.category.mapper.CategoryMapper">
 
-	<resultMap type="Category" id="CategoryResult">
+	<resultMap type="com.ruoyi.appoint.category.domain.Category" id="CategoryResult">
 		<result property="id" column="id" />
 		<result property="categoryName" column="category_name" />
 		<result property="sort" column="sort" />
@@ -16,7 +16,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select id, category_name, sort, create_time from appoint_category
 	</sql>
 
-	<select id="selectCategoryList" parameterType="Category"
+	<select id="selectCategoryList" parameterType="com.ruoyi.appoint.category.domain.Category"
 		resultMap="CategoryResult">
 		<include refid="selectCategoryVo" />
 		<where>
@@ -29,7 +29,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where id = #{id}
 	</select>
 
-	<insert id="insertCategory" parameterType="Category"
+	<insert id="insertCategory" parameterType="com.ruoyi.appoint.category.domain.Category"
 		useGeneratedKeys="true" keyProperty="id">
 		insert into appoint_category
 		<trim prefix="(" suffix=")" suffixOverrides=",">
@@ -44,7 +44,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</trim>
 	</insert>
 
-	<update id="updateCategory" parameterType="Category">
+	<update id="updateCategory" parameterType="com.ruoyi.appoint.category.domain.Category">
 		update appoint_category
 		<trim prefix="SET" suffixOverrides=",">
 			<if test="categoryName != null">category_name = #{categoryName},</if>

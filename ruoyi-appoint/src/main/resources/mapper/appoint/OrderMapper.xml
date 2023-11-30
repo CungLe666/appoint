@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.appoint.order.mapper.OrderMapper">
     
-    <resultMap type="Order" id="OrderResult">
+    <resultMap type="com.ruoyi.appoint.order.domain.Order" id="OrderResult">
         <result property="id"    column="id"    />
         <result property="orderNumber"    column="order_number"    />
         <result property="projectId"    column="project_id"    />
@@ -25,7 +25,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select id, order_number, project_id, user_id, teacher_id, teacher_name, project_name, pic_url, appoint_time, status, total_amount, time_id, time, create_time from appoint_order
     </sql>
 
-    <select id="selectOrderList" parameterType="Order" resultMap="OrderResult">
+    <select id="selectOrderList" parameterType="com.ruoyi.appoint.order.domain.Order" resultMap="OrderResult">
         <include refid="selectOrderVo"/>
         <where>  
             <if test="orderNumber != null  and orderNumber != ''"> and order_number = #{orderNumber}</if>
@@ -39,7 +39,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </select>
         
-    <insert id="insertOrder" parameterType="Order" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertOrder" parameterType="com.ruoyi.appoint.order.domain.Order" useGeneratedKeys="true" keyProperty="id">
         insert into appoint_order
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="orderNumber != null">order_number,</if>
@@ -73,7 +73,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateOrder" parameterType="Order">
+    <update id="updateOrder" parameterType="com.ruoyi.appoint.order.domain.Order">
         update appoint_order
         <trim prefix="SET" suffixOverrides=",">
             <if test="orderNumber != null">order_number = #{orderNumber},</if>

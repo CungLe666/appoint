@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.appoint.setting.mapper.SettingMapper">
     
-    <resultMap type="Setting" id="SettingResult">
+    <resultMap type="com.ruoyi.appoint.setting.domain.Setting" id="SettingResult">
         <result property="id"    column="id"    />
         <result property="teacherId"    column="teacher_id"    />
         <result property="startTime"    column="start_time"    />
@@ -16,7 +16,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select id, teacher_id, start_time, end_time, max_people from appoint_setting
     </sql>
 
-    <select id="selectSettingList" parameterType="Setting" resultMap="SettingResult">
+    <select id="selectSettingList" parameterType="com.ruoyi.appoint.setting.domain.Setting" resultMap="SettingResult">
         <include refid="selectSettingVo"/>
         <where>  
         </where>
@@ -27,7 +27,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </select>
         
-    <insert id="insertSetting" parameterType="Setting" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertSetting" parameterType="com.ruoyi.appoint.setting.domain.Setting" useGeneratedKeys="true" keyProperty="id">
         insert into appoint_setting
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="teacherId != null">teacher_id,</if>
@@ -43,7 +43,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateSetting" parameterType="Setting">
+    <update id="updateSetting" parameterType="com.ruoyi.appoint.setting.domain.Setting">
         update appoint_setting
         <trim prefix="SET" suffixOverrides=",">
             <if test="teacherId != null">teacher_id = #{teacherId},</if>

@@ -3,6 +3,7 @@ package com.ruoyi.appoint.setting.mapper;
 import java.util.List;
 
 import com.ruoyi.appoint.setting.domain.Setting;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 预约设置Mapper接口
@@ -66,7 +67,7 @@ public interface SettingMapper
      */
     public int deleteSettingByIds(String[] ids);
 
-    public List<Setting> querySettingListByTeacherId(String teacherId);
+    public List<Setting> querySettingListByTeacherId(@Param("teacherId")  String teacherId);
 
     public int deleteSettingByTeacherid(String teacherId);
 }

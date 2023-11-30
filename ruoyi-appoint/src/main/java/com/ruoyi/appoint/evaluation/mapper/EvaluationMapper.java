@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ruoyi.appoint.evaluation.domain.Evaluation;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 预约评价Mapper接口

@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.appoint.teacher.mapper.TeacherMapper">
     
-    <resultMap type="Teacher" id="TeacherResult">
+    <resultMap type="com.ruoyi.appoint.teacher.domain.Teacher" id="TeacherResult">
         <result property="id"    column="id"    />
         <result property="picUrl"    column="pic_url"    />
         <result property="realName"    column="real_name"    />
@@ -18,7 +18,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select id, pic_url, real_name, mobile, specialty, remark, create_time from appoint_teacher
     </sql>
 
-    <select id="selectTeacherList" parameterType="Teacher" resultMap="TeacherResult">
+    <select id="selectTeacherList" parameterType="com.ruoyi.appoint.teacher.domain.Teacher" resultMap="TeacherResult">
         <include refid="selectTeacherVo"/>
         <where>  
             <if test="realName != null  and realName != ''"> and real_name like concat('%', #{realName}, '%')</if>
@@ -30,7 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </select>
         
-    <insert id="insertTeacher" parameterType="Teacher" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertTeacher" parameterType="com.ruoyi.appoint.teacher.domain.Teacher" useGeneratedKeys="true" keyProperty="id">
         insert into appoint_teacher
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="picUrl != null">pic_url,</if>
@@ -50,7 +50,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateTeacher" parameterType="Teacher">
+    <update id="updateTeacher" parameterType="com.ruoyi.appoint.teacher.domain.Teacher">
         update appoint_teacher
         <trim prefix="SET" suffixOverrides=",">
             <if test="picUrl != null">pic_url = #{picUrl},</if>
